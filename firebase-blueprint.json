@@ -1,0 +1,196 @@
+{
+  "entities": {
+    "StoreSettings": {
+      "title": "StoreSettings",
+      "description": "Public storefront configuration edited by the store manager: website name, logo, WhatsApp phone number, currency, and brand accent.",
+      "type": "object",
+      "properties": {
+        "storeName": {
+          "type": "string",
+          "description": "Display name of the online catalog website",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "tagline": {
+          "type": "string",
+          "description": "Short storefront subtitle or slogan",
+          "minLength": 0,
+          "maxLength": 160
+        },
+        "logoUrl": {
+          "type": "string",
+          "description": "Logo image URL or compressed base64 data URI",
+          "minLength": 0,
+          "maxLength": 250000
+        },
+        "whatsappNumber": {
+          "type": "string",
+          "description": "Destination WhatsApp / cell phone number with country code for customer orders",
+          "minLength": 0,
+          "maxLength": 25,
+          "pattern": "^[0-9+\\s\\-()]*$"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency symbol or code displayed next to prices",
+          "minLength": 1,
+          "maxLength": 8
+        },
+        "accentColor": {
+          "type": "string",
+          "description": "Hex color code for storefront primary buttons and active tabs",
+          "minLength": 7,
+          "maxLength": 7,
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "seeded": {
+          "type": "boolean",
+          "description": "Whether initial starter catalog items have been created"
+        },
+        "updatedBy": {
+          "type": "string",
+          "description": "UID of the manager who last updated settings",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the last update"
+        }
+      },
+      "required": [
+        "storeName",
+        "tagline",
+        "logoUrl",
+        "whatsappNumber",
+        "currency",
+        "accentColor",
+        "seeded",
+        "updatedBy",
+        "updatedAt"
+      ]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "An unlimited catalog product managed by the store owner and browsed by customers.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Product title",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "description": {
+          "type": "string",
+          "description": "Product description and details",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "price": {
+          "type": "number",
+          "description": "Current selling price"
+        },
+        "compareAtPrice": {
+          "type": "number",
+          "description": "Optional original price before discount (0 if none)"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category label for customer filtering",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "Product image URL or compressed base64 data URI",
+          "minLength": 0,
+          "maxLength": 250000
+        },
+        "inStock": {
+          "type": "boolean",
+          "description": "Whether the product is currently available to buy"
+        },
+        "published": {
+          "type": "boolean",
+          "description": "Whether the product is visible in the public storefront"
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Whether the product is highlighted in the catalog"
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "UID of the manager who created the product",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when product was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the last edit"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "price",
+        "compareAtPrice",
+        "category",
+        "imageUrl",
+        "inStock",
+        "published",
+        "featured",
+        "createdBy",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized catalog manager record.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Verified email of the authorized manager",
+          "minLength": 3,
+          "maxLength": 160
+        },
+        "addedBy": {
+          "type": "string",
+          "description": "UID of the admin who granted access",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when admin access was granted"
+        }
+      },
+      "required": ["email", "addedBy", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/StoreSettings" },
+      "description": "Global storefront configuration document at /settings/store"
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Unlimited catalog products collection"
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Authorized catalog manager accounts"
+    }
+  }
+}

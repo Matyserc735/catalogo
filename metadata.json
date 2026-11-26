@@ -1,0 +1,6 @@
+{
+  "name": "Catálogo Vivo",
+  "description": "Catálogo digital responsivo con panel de administración ilimitado y compra directa por WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
